@@ -1,0 +1,25 @@
+{
+  "name": "tugas2-cyber12drago",
+  "version": "1.0.0",
+  "description": "tugas2",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/2019Genap-PBKK-F/tugas2-cyber12drago.git"
+  },
+  "keywords": [
+    "blue12drago"
+  ],
+  "author": "Refadi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/2019Genap-PBKK-F/tugas2-cyber12drago/issues"
+  },
+  "homepage": "https://github.com/2019Genap-PBKK-F/tugas2-cyber12drago#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
