@@ -1,7 +1,13 @@
-const express = require('express')
-const app = express()
-const port = 8019
+const http = require('http');
 
-app.get('/', (req, res) => res.send('Hello World!'))
+const hostname="10.199.14.46";
+const port = 8019;
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+//Create HTTP server and listen on port 8012 for requests
+http.createServer((req, res) => {
+    res.statusCode = 200;
+    res.setHeader('Content-Type', 'text/plain');
+    res.end('Hello world\n');
+  }).listen(port);
+  
+  console.log(`Server running at http://${hostname}:${port}/`);
