@@ -16,5 +16,11 @@
   "bugs": {
     "url": "https://github.com/2019Genap-PBKK-F/tugas2-cyber12drago/issues"
   },
-  "homepage": "https://github.com/2019Genap-PBKK-F/tugas2-cyber12drago#readme"
+  "homepage": "https://github.com/2019Genap-PBKK-F/tugas2-cyber12drago#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "joi": "^14.3.1",
+    "mssql": "^6.1.0"
+  }
 }
