@@ -33,11 +33,13 @@ var routes = function()
                 var transaction = new sql.Transaction(conn);
                 transaction.begin().then(function () {
                     var request = new sql.Request(transaction);
-                    request.input("ID", sql.VarChar(50), req.body.ID)
+                    request.input("id", sql.Int, req.body.ID)
                     request.input("NRP", sql.VarChar(50), req.body.NRP)
                     request.input("Nama", sql.VarChar(50), req.body.Nama)
+                    request.input("Kelamin", sql.VarChar(50), req.body.Nama)
                     request.input("Angkatan", sql.Int, req.body.Angkatan)
-                    request.input("Tgl_lahir", sql.Date, req.body.Tgl_lahir)
+                    request.input("Lahir", sql.Date, req.body.Tgl_lahir)
+                    request.input("Aktif", sql.Bit, req.body.Tgl_lahir)
                     request.execute("Usp_InsertProduct").then(function () {
                         transaction.commit().then(function (recordSet) {
                             conn.close();

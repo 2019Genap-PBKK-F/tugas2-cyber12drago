@@ -9,7 +9,7 @@ app.get("/",function(request, response)
 {
     response.json({"Message":"Welcome"});
 });
-app.use("/api/index", GotoController);
+app.use("/api/mahasiswa", GotoController);
 
 app.listen(port, function () {
     var message = "Server runnning on Port: " + port;
