@@ -1,6 +1,6 @@
 var sql = require("mssql");
 
-var config = require("./config/config.js")
+var config = require("./configs/config.js")
 
 module.exports.execqr = function (res, qr, params) {
     sql.connect(config, function (err) {
