@@ -15,7 +15,7 @@ app.use(function (req, res, next) {
     next();
 });
 
-var execute = require("./controller/controller.js")
+var execute = require("./controller.js")
 
 //Home
 app.get("/", function (req, res) {
