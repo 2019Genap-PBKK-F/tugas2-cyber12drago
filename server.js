@@ -386,7 +386,6 @@ app.delete("/api/indikatorperiode/:id&:id2", function(req, res)
 //Select
 app.get("/api/SatuanKerja/", function(req, res)
 {
-})
     var query = "select * from SatuanKerja"
     executeQuery(res, query, null, 0);
 });
