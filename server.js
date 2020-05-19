@@ -390,10 +390,10 @@ app.get("/api/SatuanKerja/", function(req, res)
     executeQuery(res, query, null, 0);
 });
 
-app.get("/api/satuankerja/nama", function(req, res)
+app.get("/api/SatuanKerja/nama", function(req, res)
 {
-   var query = 'select id,nama as name from SatuanKerja'
-   executeQuery(res, query, null, 0)
+   var query = "SELECT distinct SatuanKerja.id,SatuanKerja.nama from SatuanKerja inner join Indikator_SatuanKerja on SatuanKerja.id=Indikator_SatuanKerja.id_satker"
+   executeQuery(res, query, null, 0);
 })
 
 app.get("/api/SatuanKerja/:id", function(req, res)
@@ -493,61 +493,11 @@ app.delete("/api/capaiamunit/:id&:id2", function(req, res)
 
 //Indikator Satuan Kerja
 
-//Select
 app.get("/api/indikatorsatuankerja/", function(req, res)
 {
-   var query = "select * from Indikator_SatuanKerja"
-   executeQuery(res, query, null, 0)
-})
-
-//Insert
-app.post("/api/indikatorsatuankerja/", function(req, res)
-{
-   var model = [
-      { name: 'id_periode', sqltype: sql.Numeric, value: req.body.id_periode },
-      { name: 'id_master', sqltype: sql.Int, value: req.body.id_master },
-      { name: 'id_satker', sqltype: sql.UniqueIdentifier, value: req.body.id_satker },
-      { name: 'bobot', sqltype: sql.Float, value: req.body.bobot },
-      { name: 'target', sqltype: sql.Float, value: req.body.target },
-      { name: 'capaian', sqltype: sql.Float, value: req.body.capaian }
-   ]
-
-   var query = "insert into Indikator_SatuanKerja values( @id_periode, @id_master, @id_satker, @bobot, @target, @capaian, CURRENT_TIMESTAMP"
-   executeQuery(res, query, model, 1)
-})
-
-//Update
-app.put("/api/indikator-satuankerja/:id&:id2&:id3", function(req, res)
-{
-   var model = [
-      { name: 'id_periode', sqltype: sql.Numeric, value: req.body.id_periode },
-      { name: 'id_master', sqltype: sql.Int, value: req.body.id_master },
-      { name: 'id_satker', sqltype: sql.UniqueIdentifier, value: req.body.id_satker },
-      { name: 'bobot', sqltype: sql.Float, value: req.body.bobot },
-      { name: 'target', sqltype: sql.Float, value: req.body.target },
-      { name: 'capaian', sqltype: sql.Float, value: req.body.capaian },
-      { name: 'id', sqltype: sql.Numeric, value: req.params.id },
-      { name: 'id2', sqltype: sql.Int, value: req.params.id2 },
-      { name: 'id3', sqltype: sql.UniqueIdentifier, value: req.params.id3 }
-  ]
-
-   var query = "update Indikator_SatuanKerja set id_periode = @id_periode, id_master = @id_master, id_satker = @id_satker, bobot = @bobot, targer = @target " +
-               "capaian = @capaian, last_update = CURRENT_TIMESTAMP where id_periode = @id and id_master = @id2 and id_satker = @id3"
-   executeQuery(res, query, model, 1)
-})
-
-//Delete
-app.delete("/api/indikatorsatuankerja/:id&:id2&:id3", function(req, res)
-{
-   var model = [
-      { name: 'id_periode', sqltype: sql.Numeric, value: req.params.id },
-      { name: 'id_master', sqltype: sql.Int, value: req.params.id2 },
-      { name: 'id_satker', sqltype: sql.UniqueIdentifier, value: req.params.id3 }
-   ]
-
-   var query = "delete from Indikator_SatuanKerja where id_periode = @id_periode and id_master = @id_master and id_satker = @id_satker"
-   executeQuery(res, query, model, 1)
-})
+    var query = "select * from Indikator_SatuanKerja"
+    executeQuery(res, query, null, 0);
+});
 
 //Log Indikator Satuan Kerja
 
@@ -581,6 +531,29 @@ app.get("/api/penelitian/", function(req, res)
     executeQuery(res, query, null, 0)
 })
 
+//konkin
+app.get("/api/konkin/:id", function(req, res)
+{
+    var query = "SELECT a.aspek, a.komponen_aspek, mi.nama, isk.bobot,isk.capaian,isk.capaian as cap FROM aspek AS a inner JOIN MasterIndikator AS mi ON a.id=mi.id_aspek inner JOIN Indikator_SatuanKerja as isk ON isk.id_master=mi.id where isk.id_satker='"+req.params.id+"'";
+    executeQuery(res, query, null, 0);
+});
+
+app.get("/api/konkin/", function(req, res)
+{
+    var query = "SELECT a.aspek, a.komponen_aspek, mi.nama, isk.bobot,isk.capaian,isk.capaian as cap FROM aspek AS a inner JOIN MasterIndikator AS mi ON a.id=mi.id_aspek inner JOIN Indikator_SatuanKerja as isk ON isk.id_master=mi.id";
+    executeQuery(res, query, null, 0);
+});
+
+// auth
+app.get('/auth/login/:email', function(req, res)
+{
+  var model = [
+    { name: 'email', sqltype: sql.VarChar, value: req.params.email }
+  ]
+  var query = 'select id, nama, email from SatuanKerja where email = @email'
+
+  executeQuery(res, query, model, 1)
+})
 
 app.listen(8019, function () {
    console.log('Listen on port 8019')

@@ -443,44 +443,23 @@ app.delete("/api/capaianunit/:id&:id2", function(req, res)
 
 //tabel Indikator Satuan Kerja
 
-app.get("/api/indikatorsatuankerja/", function(req, res)
+app.get("/api/indikator-satuan-kerja/:id", function(req, res)
 {
-  var query = "select * form Indikator_SatuanKerja"
+  var model = [
+    { name: 'id_satker', sqltype: sql.UniqueIdentifier, value: req.params.id }
+  ]
+  var query = "select sk.nama as Nama, apk.aspek as Aspek, apk.komponen_aspek as Komponen, mi.nama as Indikator, " +
+              "isk.bobot as Bobot, isk.target as Target, isk.capaian as Capaian from Indikator_SatuanKerja isk " +
+              "Inner Join MasterIndikator mi on isk.id_master = mi.id inner join Aspek apk on mi.id_aspek = apk.id " +
+              "inner join SatuanKerja sk on isk.id_satker = sk.id where sk.id = @id_satker" 
+              
+  executeQuery(res, query, model, 1)
+})
+
+app.get("/api/satuan-kerja/dropdown", function(req, res)
+{
+  var query = "select id, nama from SatuanKerja where nama like 'Departemen%' or nama like 'Fakultas%' order by nama"  
   executeQuery(res, query, null, 0)
-})
-
-app.post("/api/indikatorsatuankerja/", function(req, res)
-{
-  var model = [
-    { name: 'id_periode', sqltype: sql.Numeric, value: req.body.id_periode },
-    { name: 'id_master', sqltype: sql.Int, value: req.body.id_master },
-    { name: 'id_satker', sqltype: sql.UniqueIdentifier, value: req.body.id_satker },
-    { name: 'bobot', sqltype: sql.Float, value: req.body.bobot },
-    { name: 'target', sqltype: sql.Float, value: req.body.target },
-    { name: 'capaian', sqltype: sql.Float, value: req.body.capaian }
-  ]
-
-  var query = "insert into Indikator_SatuanKerja values( @id_periode, @id_master, @id_satker, @bobot, @target, @capaian, CURRENT_TIMESTAMP"
-  executeQuery(res, query, model, 1)
-})
-
-app.put("/api/indikatorsatuankerja/:id&:id2&:id3", function(req, res)
-{
-  var model = [
-    { name: 'id_periode', sqltype: sql.Numeric, value: req.body.id_periode },
-    { name: 'id_master', sqltype: sql.Int, value: req.body.id_master },
-    { name: 'id_satker', sqltype: sql.UniqueIdentifier, value: req.body.id_satker },
-    { name: 'bobot', sqltype: sql.Float, value: req.body.bobot },
-    { name: 'target', sqltype: sql.Float, value: req.body.target },
-    { name: 'capaian', sqltype: sql.Float, value: req.body.capaian },
-    { name: 'id', sqltype: sql.Numeric, value: req.params.id },
-    { name: 'id2', sqltype: sql.Int, value: req.params.id2 },
-    { name: 'id3', sqltype: sql.UniqueIdentifier, value: req.params.id3 }
-  ]
-
-  var query = "update Indikator_SatuanKerja set id_periode = @id_periode, id_master = @id_master, id_satker = @id_satker, bobot = @bobot, target = @target " +
-              "capaian = @capaian, last_update = CURRENT_TIMESTAMP where id_periode = @id and id_master = @id2 and id_satker = @id3"
-  executeQuery(res, query, model, 1)
 })
 
 app.delete("/api/indikatorsatuankerja/:id&:id2&:id3", function(req, res)
